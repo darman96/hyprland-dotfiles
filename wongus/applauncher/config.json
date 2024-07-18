@@ -1,0 +1,9 @@
+{
+  "width": {
+    "percent": 100
+  },
+  "height": {
+    "percent": 100
+  },
+  "listen": "wongus_ipc.sock"
+}
