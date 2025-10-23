@@ -19,3 +19,7 @@ ln -s ./alacritty $config_dir/alacritty
 # Hyprland
 deleteIfExists "$config_dir/hypr"
 ln -s ./hypr $config_dir/hypr
+
+# Quickshell
+deleteIfExists "$config_dir/quickshell"
+ln -s ./quickshell $config_dir/quickshell
