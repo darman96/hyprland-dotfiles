@@ -83,11 +83,13 @@ Scope {
                                 Layout.fillWidth: true
                             }
 
-                            Volume {}
+                            // Volume {}
 
                             Item {
                                 Layout.fillHeight: true
                             }
+
+                            Tray {}
 
                             Rectangle {
                                 color: "#FFD063"

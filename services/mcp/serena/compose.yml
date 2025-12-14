@@ -1,0 +1,16 @@
+services:
+  serena:
+    container_name: serena-mcp
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ./serena_config.docker.yml:/workspaces/serena/serena_config.docker.yml
+      - /mnt/hdd_01/data/Dev/repos:/workspaces/projects
+    ports:
+      - "${SERENA_PORT:-9121}:9121"  # MCP server port
+      - "${SERENA_DASHBOARD_PORT:-24282}:24282"  # Dashboard port (default 0x5EDA = 24282)
+    environment:
+      - SERENA_DOCKER=1
+    command:
+      - "uv run --directory . serena-mcp-server --transport streamable-http --port 9121 --host 0.0.0.0 --context ide --mode interactive"

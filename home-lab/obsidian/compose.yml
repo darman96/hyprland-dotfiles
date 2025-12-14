@@ -1,0 +1,16 @@
+services:
+  couchdb:
+    image: couchdb:latest
+    container_name: couchdb
+    user: 1000:1000
+    ports:
+      - "5984:5984"
+    environment:
+      - COUCHDB_USER=${COUCHDB_USER}
+      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD}
+    volumes:
+      - type: bind
+        source: .
+        target: /opt/couchdb/data
+        bind:
+          create_host_path: true
