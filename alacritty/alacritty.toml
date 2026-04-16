@@ -2,14 +2,14 @@
 SHELL = "/bin/zsh"
 
 [terminal]
-shell = "/bin/zsh"
+shell = { program = "/bin/zsh", args = ["-l"] }
 
 [window]
 padding = { x = 10, y = 10 }
 opacity = 0.8
 
 [font]
-normal = { family = "FiraCode NerdFont Mono", style = "Regular" }
+normal = { family = "DepartureMono Nerd Font", style = "Regular" }
 
 [colors]
 primary = { background = "#222831", foreground = "#ffd369" }

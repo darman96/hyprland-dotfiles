@@ -42,6 +42,10 @@ services_dir="/etc/systemd/system"
 deleteIfExists "$config_dir/alacritty"
 ln -s $current_dir/alacritty $config_dir/alacritty
 
+# KDE globals
+deleteIfExists "$config_dir/kdeglobals"
+ln -s $current_dir/kdeglobals $config_dir/kdeglobals
+
 # Hyprland
 deleteIfExists "$config_dir/hypr"
 ln -s $current_dir/hypr $config_dir/hypr
@@ -67,14 +71,7 @@ fc-cache -f
 deleteIfExists "$config_dir/services"
 ln -s $current_dir/services $config_dir/services
 
-# Services - Serena MCP
-runAsRoot systemctl disable serena-mcp.service
-deleteIfExists "$services_dir/serena-mcp.service" true
-
-runAsRoot cp $current_dir/services/mcp/serena/serena-mcp.service $services_dir/serena-mcp.service
-runAsRoot systemctl daemon-reload
-runAsRoot systemctl enable serena-mcp.service
-runAsRoot systemctl start serena-mcp.service
+# Services
 
 # GTK4
 gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
@@ -82,10 +79,3 @@ gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
 # Qt
 deleteIfExists "$config_dir/qt"
 ln -s $current_dir/qt $config_dir/qt
-
-# Greetd
-deleteIfExists "/etc/greetd" true
-runAsRoot cp -r $current_dir/greetd /etc/greetd
-
-# rEFInd
-runAsRoot cp -r refind /boot/EFI
