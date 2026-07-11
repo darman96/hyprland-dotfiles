@@ -5,6 +5,8 @@ import Quickshell.Widgets
 import QtQuick
 import QtQuick.Layouts
 
+import qs.widgets.launcher
+
 Scope {
     id: root
 
@@ -32,13 +34,45 @@ Scope {
 
                 anchors.fill: parent
 
-                margin: 12
-                topMargin: 0
+                leftMargin: 12
+                rightMargin: 12
+                bottomMargin: 12
 
                 Rectangle {
-                    implicitHeight: 6
+                    implicitHeight: 12
 
-                    color: "#FFD063"
+                    // Brightens when the Dock launcher (variant 5) opens.
+                    color: LauncherState.dockOpen ? "#FFF3C0" : "#FFD063"
+
+                    Behavior on color {
+                        ColorAnimation {
+                            duration: 250
+                        }
+                    }
+
+                    // Gentle "listening" pulse while the dock is open.
+                    Rectangle {
+                        anchors.fill: parent
+                        color: "#FFFFFF"
+                        opacity: 0
+                        visible: LauncherState.dockOpen
+
+                        SequentialAnimation on opacity {
+                            running: LauncherState.dockOpen
+                            loops: Animation.Infinite
+
+                            NumberAnimation {
+                                to: 0.4
+                                duration: 700
+                                easing.type: Easing.InOutSine
+                            }
+                            NumberAnimation {
+                                to: 0.0
+                                duration: 700
+                                easing.type: Easing.InOutSine
+                            }
+                        }
+                    }
                 }
             }
         }

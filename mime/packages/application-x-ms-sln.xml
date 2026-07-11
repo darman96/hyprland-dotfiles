@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-ms-sln">
+    <comment>Visual Studio Solution</comment>
+    <sub-class-of type="text/plain"/>
+    <glob pattern="*.sln" weight="80"/>
+    <magic priority="80">
+      <match type="string" value="Microsoft Visual Studio Solution File" offset="0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-ms-slnx">
+    <comment>Visual Studio XML Solution</comment>
+    <sub-class-of type="application/xml"/>
+    <glob pattern="*.slnx" weight="80"/>
+  </mime-type>
+</mime-info>

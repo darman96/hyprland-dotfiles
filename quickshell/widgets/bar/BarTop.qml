@@ -41,7 +41,38 @@ Scope {
                 Rectangle {
                     implicitHeight: 6
 
-                    color: "#FFD063"
+                    // Brightens when the Console launcher (variant 4) opens.
+                    color: LauncherState.consoleOpen ? "#FFF3C0" : "#FFD063"
+
+                    Behavior on color {
+                        ColorAnimation {
+                            duration: 250
+                        }
+                    }
+
+                    // Gentle "listening" pulse while the console is open.
+                    Rectangle {
+                        anchors.fill: parent
+                        color: "#FFFFFF"
+                        opacity: 0
+                        visible: LauncherState.consoleOpen
+
+                        SequentialAnimation on opacity {
+                            running: LauncherState.consoleOpen
+                            loops: Animation.Infinite
+
+                            NumberAnimation {
+                                to: 0.4
+                                duration: 700
+                                easing.type: Easing.InOutSine
+                            }
+                            NumberAnimation {
+                                to: 0.0
+                                duration: 700
+                                easing.type: Easing.InOutSine
+                            }
+                        }
+                    }
                 }
             }
         }

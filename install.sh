@@ -37,6 +37,8 @@ current_dir=$(pwd)
 config_dir="/home/erik/.config"
 local_dir="/home/erik/.local"
 services_dir="/etc/systemd/system"
+mime_packages_dir="$local_dir/share/mime/packages"
+mime_package_name="application-x-ms-sln.xml"
 
 # Alacritty
 deleteIfExists "$config_dir/alacritty"
@@ -79,3 +81,9 @@ gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
 # Qt
 deleteIfExists "$config_dir/qt"
 ln -s $current_dir/qt $config_dir/qt
+
+# MIME types
+mkdir -p "$mime_packages_dir"
+deleteIfExists "$mime_packages_dir/$mime_package_name"
+ln -s "$current_dir/mime/packages/$mime_package_name" "$mime_packages_dir/$mime_package_name"
+update-mime-database "$local_dir/share/mime"
