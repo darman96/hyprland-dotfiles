@@ -11,8 +11,7 @@ import QtQuick.Shapes
 
 // A vertical sidebar carrying the "Slant" (launcher V6) visual language —
 // chamfered panel, thick trapezoid bevel accents, an outward bracket, a
-// floating triangle cap and a slanted divider. A left-anchored background
-// layer shell that reserves its strip, like the main bar on the right.
+// floating triangle cap and a slanted divider. Right-anchored, mirrored.
 Scope {
     id: root
 
@@ -46,7 +45,7 @@ Scope {
 
         anchors {
             top: true
-            left: true
+            right: true
             bottom: true
         }
 
@@ -55,8 +54,8 @@ Scope {
         }
 
         // Frame width plus the gutter the outward bracket grows into.
-        readonly property int pad: 12
-        implicitWidth: 88 + 2 * pad
+        readonly property int pad: 10
+        implicitWidth: 72 + 2 * pad
 
         Item {
             id: frame
@@ -65,173 +64,173 @@ Scope {
             anchors.fill: parent
             anchors.margins: win.pad
 
-            readonly property int chamfer: 22       // big cut corners (top-left, bottom-right)
-            readonly property int smallChamfer: 8   // small bevel (top-right, bottom-left)
-            readonly property int bevel: 5          // inward thickness of the trapezoid accents
-            readonly property int chunkThick: 8     // outward thickness of the bracket
-            readonly property int chunkSlant: 12    // slant of the bracket end pieces
-            readonly property int capSize: 12       // floating triangle cap
-            readonly property int armSide: 70       // bracket arm down the right edge
-            readonly property int armTop: 42        // bracket arm along the top edge
+            readonly property int chamfer: 18       // big cut corners (top-right, bottom-left)
+            readonly property int smallChamfer: 7   // small bevel (top-left, bottom-right)
+            readonly property int bevel: 4          // inward thickness of the trapezoid accents
+            readonly property int chunkThick: 7      // outward thickness of the bracket
+            readonly property int chunkSlant: 10    // slant of the bracket end pieces
+            readonly property int capSize: 10       // floating triangle cap
+            readonly property int armSide: 58       // bracket arm down the left edge
+            readonly property int armTop: 34        // bracket arm along the top edge
 
             Shape {
                 id: panelShape
                 anchors.fill: parent
                 preferredRendererType: Shape.CurveRenderer
 
-                // Panel: big chamfers on top-left & bottom-right, small bevels
-                // on top-right & bottom-left.
+                // Panel: big chamfers on top-right & bottom-left, small bevels
+                // on top-left & bottom-right (mirror of the left-anchored panel).
                 ShapePath {
                     fillColor: "#0F1012"
                     strokeColor: "#FFD063"
                     strokeWidth: 2
 
-                    startX: frame.chamfer
+                    startX: panelShape.width - frame.chamfer
                     startY: 0
                     PathLine {
-                        x: panelShape.width - frame.smallChamfer
+                        x: frame.smallChamfer
                         y: 0
                     }
                     PathLine {
-                        x: panelShape.width
+                        x: 0
                         y: frame.smallChamfer
                     }
                     PathLine {
-                        x: panelShape.width
+                        x: 0
                         y: panelShape.height - frame.chamfer
                     }
                     PathLine {
-                        x: panelShape.width - frame.chamfer
+                        x: frame.chamfer
                         y: panelShape.height
                     }
                     PathLine {
-                        x: frame.smallChamfer
+                        x: panelShape.width - frame.smallChamfer
                         y: panelShape.height
                     }
                     PathLine {
-                        x: 0
+                        x: panelShape.width
                         y: panelShape.height - frame.smallChamfer
                     }
                     PathLine {
-                        x: 0
+                        x: panelShape.width
                         y: frame.chamfer
                     }
                     PathLine {
-                        x: frame.chamfer
+                        x: panelShape.width - frame.chamfer
                         y: 0
                     }
                 }
 
-                // Thick top-left bevel accent (trapezoid to the edges).
+                // Thick top-right bevel accent (trapezoid to the edges).
+                ShapePath {
+                    strokeWidth: 0
+                    fillColor: "#FFD063"
+
+                    startX: panelShape.width
+                    startY: frame.chamfer
+                    PathLine {
+                        x: panelShape.width - frame.chamfer
+                        y: 0
+                    }
+                    PathLine {
+                        x: panelShape.width - frame.chamfer - 2 * frame.bevel
+                        y: 0
+                    }
+                    PathLine {
+                        x: panelShape.width
+                        y: frame.chamfer + 2 * frame.bevel
+                    }
+                    PathLine {
+                        x: panelShape.width
+                        y: frame.chamfer
+                    }
+                }
+
+                // Thick bottom-left bevel accent.
                 ShapePath {
                     strokeWidth: 0
                     fillColor: "#FFD063"
 
                     startX: 0
-                    startY: frame.chamfer
+                    startY: panelShape.height - frame.chamfer
                     PathLine {
                         x: frame.chamfer
-                        y: 0
+                        y: panelShape.height
                     }
                     PathLine {
                         x: frame.chamfer + 2 * frame.bevel
-                        y: 0
-                    }
-                    PathLine {
-                        x: 0
-                        y: frame.chamfer + 2 * frame.bevel
-                    }
-                    PathLine {
-                        x: 0
-                        y: frame.chamfer
-                    }
-                }
-
-                // Thick bottom-right bevel accent.
-                ShapePath {
-                    strokeWidth: 0
-                    fillColor: "#FFD063"
-
-                    startX: panelShape.width
-                    startY: panelShape.height - frame.chamfer
-                    PathLine {
-                        x: panelShape.width - frame.chamfer
                         y: panelShape.height
                     }
                     PathLine {
-                        x: panelShape.width - frame.chamfer - 2 * frame.bevel
-                        y: panelShape.height
-                    }
-                    PathLine {
-                        x: panelShape.width
+                        x: 0
                         y: panelShape.height - frame.chamfer - 2 * frame.bevel
                     }
                     PathLine {
-                        x: panelShape.width
+                        x: 0
                         y: panelShape.height - frame.chamfer
                     }
                 }
 
-                // Floating triangle cap in the bottom-right notch.
+                // Floating triangle cap in the bottom-left notch.
                 ShapePath {
                     strokeWidth: 0
                     fillColor: "#FFD063"
 
-                    startX: panelShape.width
+                    startX: 0
                     startY: panelShape.height
                     PathLine {
-                        x: panelShape.width
+                        x: 0
                         y: panelShape.height - frame.capSize
                     }
                     PathLine {
-                        x: panelShape.width - frame.capSize
+                        x: frame.capSize
                         y: panelShape.height
                     }
                     PathLine {
-                        x: panelShape.width
+                        x: 0
                         y: panelShape.height
                     }
                 }
 
-                // Outward bracket wrapping the top-right corner: down the right
+                // Outward bracket wrapping the top-left corner: down the left
                 // edge and along the top edge, with slanted ends and a beveled
                 // corner following the small chamfer.
                 ShapePath {
                     strokeWidth: 0
                     fillColor: "#FFD063"
 
-                    startX: panelShape.width
+                    startX: 0
                     startY: frame.armSide
                     PathLine {
-                        x: panelShape.width + frame.chunkThick
+                        x: -frame.chunkThick
                         y: frame.armSide - frame.chunkSlant
                     }
                     PathLine {
-                        x: panelShape.width + frame.chunkThick
+                        x: -frame.chunkThick
                         y: frame.smallChamfer
                     }
                     PathLine {
-                        x: panelShape.width - frame.smallChamfer
+                        x: frame.smallChamfer
                         y: -frame.chunkThick
                     }
                     PathLine {
-                        x: panelShape.width - frame.armTop + frame.chunkSlant
+                        x: frame.armTop - frame.chunkSlant
                         y: -frame.chunkThick
                     }
                     PathLine {
-                        x: panelShape.width - frame.armTop
+                        x: frame.armTop
                         y: 0
                     }
                     PathLine {
-                        x: panelShape.width - frame.smallChamfer
+                        x: frame.smallChamfer
                         y: 0
                     }
                     PathLine {
-                        x: panelShape.width
+                        x: 0
                         y: frame.smallChamfer
                     }
                     PathLine {
-                        x: panelShape.width
+                        x: 0
                         y: frame.armSide
                     }
                 }
@@ -240,11 +239,11 @@ Scope {
             // ── Content ────────────────────────────────────────────────────
             ColumnLayout {
                 anchors.fill: parent
-                anchors.topMargin: 22
-                anchors.bottomMargin: 22
-                anchors.leftMargin: 12
-                anchors.rightMargin: 14
-                spacing: 14
+                anchors.topMargin: 16
+                anchors.bottomMargin: 16
+                anchors.leftMargin: 10
+                anchors.rightMargin: 8
+                spacing: 10
 
                 // Clock — Digital-7, hh over mm
                 Text {
@@ -252,8 +251,8 @@ Scope {
                     horizontalAlignment: Text.AlignHCenter
                     text: Qt.formatDateTime(clock.date, "hh\nmm")
                     font.family: "Digital-7 Mono"
-                    font.pointSize: 26
-                    font.letterSpacing: 2
+                    font.pointSize: 22
+                    font.letterSpacing: 1
                     color: "#EEEEEE"
 
                     SystemClock {
@@ -268,7 +267,7 @@ Scope {
                     horizontalAlignment: Text.AlignHCenter
                     text: Qt.formatDateTime(clock.date, "dd\nMMM").toUpperCase()
                     font.family: "Digital-7 Mono"
-                    font.pointSize: 15
+                    font.pointSize: 13
                     color: "#FFD063"
                 }
 
@@ -303,13 +302,13 @@ Scope {
                     Layout.alignment: Qt.AlignHCenter
                     text: "VOL"
                     font.family: "Digital-7 Mono"
-                    font.pointSize: 12
+                    font.pointSize: 10
                     color: "#7A7B7D"
                 }
 
                 ColumnLayout {
                     Layout.alignment: Qt.AlignHCenter
-                    spacing: 4
+                    spacing: 3
 
                     // Overflow — three floating slanted segments for volume
                     // pushed above 100%, lit with the same overload color as
@@ -327,8 +326,8 @@ Scope {
                             readonly property int chamfer: 4
 
                             Layout.alignment: Qt.AlignHCenter
-                            implicitWidth: 18
-                            implicitHeight: 14
+                            implicitWidth: 16
+                            implicitHeight: 12
 
                             // Empty track, chamfered to match the main meter.
                             Shape {
@@ -394,8 +393,8 @@ Scope {
                     Item {
                         id: volMeter
                         Layout.alignment: Qt.AlignHCenter
-                        implicitWidth: 18
-                        implicitHeight: 120
+                        implicitWidth: 16
+                        implicitHeight: 96
 
                         readonly property int chamfer: 6
 
@@ -468,7 +467,7 @@ Scope {
                     Layout.alignment: Qt.AlignHCenter
                     text: root.muted ? "--" : Math.round(root.volume * 100)
                     font.family: "Digital-7 Mono"
-                    font.pointSize: 16
+                    font.pointSize: 14
                     color: root.muted ? "#7A7B7D" : "#EEEEEE"
                 }
             }
